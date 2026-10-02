@@ -39,10 +39,10 @@ class MonthlyDateTimeInterval : DateTimeInterval
     @SuppressLint("SimpleDateFormat")
     override fun toString(resources : Resources) : String
     {
-        val now = ZonedDateTime.now(defaultTimezone)!!
+        val now = ZonedDateTime.now(fromDateTime.zone)!!
 
         val dateFormatter = 
-            if (fromDateTime.year!=now.year)
+            if (fromDateTime.year != now.year)
                 DateTimeFormatter.ofPattern("MMM yyyy")!!
             else DateTimeFormatter.ofPattern("MMM")!!
         return dateFormatter.format(fromDateTime)!!

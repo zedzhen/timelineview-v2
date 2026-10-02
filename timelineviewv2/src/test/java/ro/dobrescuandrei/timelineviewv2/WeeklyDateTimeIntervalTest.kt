@@ -57,19 +57,15 @@ class WeeklyDateTimeIntervalTest
     @Test
     fun testIntervalAroundToday()
     {
-        fun Int.withLeadingZero() = if(this<10) "0$this" else "$this"
+        fun Int.withLeadingZero() = if(this < 10) "0$this" else "$this"
 
         fun ZonedDateTime.formatted() = "${dayOfMonth.withLeadingZero()}.${monthValue.withLeadingZero()}.$year"
 
-        val formattedMinDay = DateTimeIntervalConverter().convert(
-            from = DailyDateTimeInterval.today(),
-            to = WeeklyDateTimeInterval::class.java
-        ).fromDateTime.formatted()
+        val formattedMinDay = DateTimeIntervalConverter.convert(DailyDateTimeInterval.today())
+            .to(WeeklyDateTimeInterval::class.java).fromDateTime.formatted()
 
-        val formattedMaxDay = DateTimeIntervalConverter().convert(
-            from = DailyDateTimeInterval.today(),
-            to = WeeklyDateTimeInterval::class.java
-        ).toDateTime.formatted()
+        val formattedMaxDay = DateTimeIntervalConverter.convert(DailyDateTimeInterval.today())
+            .to(WeeklyDateTimeInterval::class.java).toDateTime.formatted()
 
         val interval = WeeklyDateTimeInterval.aroundToday()
         assertEquals("$formattedMinDay 00:00:00.000", dateTimeFormatter.format(interval.fromDateTime))

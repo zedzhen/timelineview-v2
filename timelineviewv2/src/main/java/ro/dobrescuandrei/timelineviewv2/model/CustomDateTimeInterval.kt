@@ -26,16 +26,16 @@ class CustomDateTimeInterval : DateTimeInterval
     @SuppressLint("SimpleDateFormat")
     override fun toString(resources : Resources) : String
     {
-        val now = ZonedDateTime.now(defaultTimezone)!!
+        val now = ZonedDateTime.now(fromDateTime.zone)!!
 
         val startDateTimeFormatter = 
-            if (fromDateTime.year!=now.year)
+            if (fromDateTime.year != now.year)
                 DateTimeFormatter.ofPattern("dd MMM yyyy")!!
             else DateTimeFormatter.ofPattern("dd MMM")!!
         val startDateStr = startDateTimeFormatter.format(fromDateTime)!!
 
         val endDateTimeFormatter = 
-            if (toDateTime.year!=now.year)
+            if (toDateTime.year != now.year)
                 DateTimeFormatter.ofPattern("dd MMM yyyy")!!
             else DateTimeFormatter.ofPattern("dd MMM")!!
         val endDateStr = endDateTimeFormatter.format(toDateTime)!!

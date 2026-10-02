@@ -49,12 +49,12 @@ class ChangeDateTimeIntervalTypeDialogView : BaseCustomView
 
         for ((radioButton, intervalType) in radioButtonsToIntervalTypes)
         {
-            if (supportedIntervalTypes.find { it==intervalType }!=null
-                || intervalType==CustomDateTimeInterval::class.java)
+            if (supportedIntervalTypes.find { it == intervalType }!=null
+                || intervalType == CustomDateTimeInterval::class.java)
                 radioButton.visibility = View.VISIBLE
             else radioButton.visibility = View.GONE
 
-            if (intervalType==timelineView.dateTimeInterval::class.java)
+            if (intervalType == timelineView.dateTimeInterval::class.java)
                 radioButton.isChecked = true
 
             radioButton.setOnCheckedChangeListener { _,_ ->
@@ -62,10 +62,9 @@ class ChangeDateTimeIntervalTypeDialogView : BaseCustomView
                 {
                     val selectedIntervalType = radioButtonsToIntervalTypes[radioButton]!!
 
-                    timelineView.dateTimeInterval = 
-                        DateTimeIntervalConverter().convert(
-                            from = timelineView.dateTimeInterval,
-                            to = selectedIntervalType)
+                    timelineView.dateTimeInterval = DateTimeIntervalConverter
+                        .convert(timelineView.dateTimeInterval)
+                        .to(selectedIntervalType)
 
                     dialog.dismiss()
                 }
@@ -78,10 +77,9 @@ class ChangeDateTimeIntervalTypeDialogView : BaseCustomView
         customIntervalButtonOverlayView.setOnClickListener {
             dialog.dismiss()
 
-            val referenceDailyDateTimeInterval = 
-                DateTimeIntervalConverter().convert(
-                    from = timelineView.dateTimeInterval,
-                    to = DailyDateTimeInterval::class.java)
+            val referenceDailyDateTimeInterval = DateTimeIntervalConverter
+                .convert(timelineView.dateTimeInterval)
+                .to(DailyDateTimeInterval::class.java)
 
             ZonedDateTimePickerDialog.show(
                 context = timelineView.context,

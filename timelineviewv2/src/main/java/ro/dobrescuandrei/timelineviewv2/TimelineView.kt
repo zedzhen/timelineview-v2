@@ -1,5 +1,6 @@
 package ro.dobrescuandrei.timelineviewv2
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Looper
@@ -37,6 +38,7 @@ class TimelineView : BaseCustomView
         initializeViewAppearance()
     }
 
+    @SuppressLint("UseKtx")
     constructor(context : Context, attributeSet : AttributeSet) : super(context, attributeSet)
     {
         if (!isInEditMode)
@@ -109,9 +111,9 @@ class TimelineView : BaseCustomView
         if (dateTimeInterval is CustomDateTimeInterval && !appearance.isCustomDateTimeIntervalSupported)
             throw InvalidDateTimeIntervalTypeException("Cannot use CustomDateTimeInterval!")
 
-        if (field!=dateTimeInterval || recyclerView.adapter==null)
+        if (field != dateTimeInterval || recyclerView.adapter == null)
         {
-            if (field::class.java!=dateTimeInterval::class.java)
+            if (field::class.java != dateTimeInterval::class.java)
             {
                 dateTimeIntervalTypeChangeFlow.seekToNode(dateTimeInterval::class.java)
                 updateUiFromIntervalTypeChangeFlow()
@@ -133,7 +135,7 @@ class TimelineView : BaseCustomView
     }
 
     var dateTimeIntervalTypeChangeFlow : DateTimeIntervalTypeChangeFlow =
-        DateTimeIntervalTypeChangeFlow.build { from(DailyDateTimeInterval::class.java) }
+        DateTimeIntervalTypeChangeFlow.from(DailyDateTimeInterval::class.java).build()
     set(flow)
     {
         field = flow
@@ -148,14 +150,14 @@ class TimelineView : BaseCustomView
 
         decrementDateIntervalTypeButton.setOnClickListener {
             flow.previousNode()?.let { type ->
-                this.dateTimeInterval = DateTimeIntervalConverter().convert(from = dateTimeInterval, to = type)
+                this.dateTimeInterval = DateTimeIntervalConverter.convert(dateTimeInterval).to(type)
                 updateUiFromIntervalTypeChangeFlow()
             }
         }
 
         incrementDateIntervalTypeButton.setOnClickListener {
             flow.nextNode()?.let { type ->
-                this.dateTimeInterval = DateTimeIntervalConverter().convert(from = dateTimeInterval, to = type)
+                this.dateTimeInterval = DateTimeIntervalConverter.convert(dateTimeInterval).to(type)
                 updateUiFromIntervalTypeChangeFlow()
             }
         }
